@@ -22,4 +22,18 @@ router.post('/plots', async (req, res)=>{
     }
 })
 
+router.patch('/plots', async (req,res)=>{
+    const plots = await ParkingPlot.updateMany({booked:true},{booked:false})    
+    if(plots.nModified){
+        return res.status(200).json({
+            status:"Success",
+            message:plots.nModified+" plots freed!"
+        })
+    }
+    return res.status(400).json({
+        status:"Failed",
+        message:"No parking plots to free!"
+    })
+})
+
 module.exports = router
